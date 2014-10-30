@@ -160,7 +160,8 @@
 					<username>test</username>
 					<password>test</password>
 					<verbose>true</verbose>
-					<dropFirst>true</dropFirst>
+					<dropFirst>false</dropFirst>
+					<defaultschemaName>test</defaultschemaName>
 				</configuration>
 			</plugin>
 			<plugin>
