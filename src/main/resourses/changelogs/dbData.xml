@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <preConditions>
+        <dbms type="postgresql" />
+    </preConditions>
+
+
+
+    <changeSet id="1" author="Ihar" runOnChange="true" failOnError="false">
+        <insert tableName="buses">
+            <column name="name" value="Number2" />
+            <column name="direction" value="test2" />
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="Number14" />
+            <column name="direction" value="test14" />
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="Number1" />
+            <column name="direction" value="test1" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="2" author="Ihar" runOnChange="true" failOnError="false">
+        <insert tableName="bustrips">
+            <column name="day_type" value="work" />
+            <column name="time" value="" />
+            <column name="bus_id" value="1" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="3" author="Ihar" runOnChange="true" failOnError="false">
+        <insert tableName="stops">
+            <column name="name" value="test" />
+            <column name="is_finish" value="false" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="Ihar" runOnChange="true" failOnError="false">
+        <insert tableName="checkpoints">
+            <column name="bustrip_id" value="1" />
+            <column name="num" valueDate="1" />
+            <column name="stop_id" value="1" />
+            <column name="deltaTime" value="2" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>

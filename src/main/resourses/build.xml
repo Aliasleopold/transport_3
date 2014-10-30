@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<project name="businfo" default="compile">
+    <!-- ================================================================== -->
+
+    <property file="build.properties" />
+    <property environment="env" />
+
+    <property name="HOST" value="${env.COMPUTERNAME}" />
+    <property file="build_${HOST}.properties" />
+
+    <property name="build_dir" value=".build" />
+    <property name="dist_dir" value=".dist" />
+    <property name="tools_dir" value="tools" />
+    <property name="config_dir" value="config" />
+
+    <property name="reports" value="${basedir}/.reports" />
+    <property name="src" value="src" />
+    <property name="db" value="db" />
+    <!-- ================================================================== -->
+
+    <path id="path">
+        <fileset dir="${build_dir}/WEB-INF/lib">
+            <include name="*.jar" />
+        </fileset>
+        <fileset dir="${tools_dir}">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${tools_dir}/deployer/servlet-api.jar" />
+    </path>
+
+    <!--  ===== Compile Target ===== -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${build_dir}/WEB-INF/classes" debug="true" includeantruntime="false" source="1.6">
+            <classpath refid="path" />
+        </javac>
+    </target>
+
+    <!--  ===== Init Target ===== -->
+    <target name="init">
+        <mkdir dir="${build_dir}" />
+
+        <copy todir="${build_dir}">
+            <fileset dir="web">
+                <exclude name="**/*.properties" />
+                                    <exclude name="**/*.cp1251" />
+            </fileset>
+        </copy>
+
+        <copy todir="${build_dir}">
+            <fileset dir="web">
+                <include name="**/*.properties" />
+            </fileset>
+            <filterset begintoken="@{" endtoken="}" filtersfile="build_${HOST}.properties" />
+        </copy>
+
+        <native2ascii encoding="Cp1251" src="web/WEB-INF/classes" dest="${build_dir}/WEB-INF/classes" includes="**/*.cp1251" ext=".properties" />
+
+    </target>
+
+    <!--  ===== War Target ===== -->
+    <target name="war" depends="compile">
+        <mkdir dir="${dist_dir}" />
+        <war destfile="${dist_dir}/rdlab.war" basedir="${build_dir}" />
+    </target>
+
+    <!--  ===== Clean Target ===== -->
+    <target name="clean">
+        <delete dir="${build_dir}" />
+        <delete dir="${dist_dir}" />
+        <delete dir="${reports}" />
+    </target>
+
+    <!--  ===== DB Prepare Target ===== -->
+    <target name="db-prepare">
+        <property name="database.changelog.init" value="${db}/dbInit.xml"/>
+        <property name="database.changelog.data" value="${db}/dbData.xml"/>
+        <property name="database.driver" value="org.postgresql.Driver"/>
+        <property name="database.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+        <property name="database.username" value="test"/>
+        <property name="database.password" value="test"/>
+        <property name="database.schema" value="test"/>
+    </target>
+
+    <!--  ===== DB update Target ===== -->
+    <target name="db-init" depends="db-prepare">
+        <taskdef resource="liquibasetasks.properties" classpathref="path" />
+        <updateDatabase
+            changeLogFile="${database.changelog.init}"
+            driver="${database.driver}"
+            url="${database.url}"
+            username="${database.username}"
+            password="${database.password}"
+            defaultSchemaName="${database.schema}"
+            promptOnNonLocalDatabase="${prompt.user.if.not.local.database}" 
+            dropFirst="true"
+            classpathref="path"
+        />
+    </target>
+
+    <!--  ===== DB Generate Changelog Target ===== -->
+    <target name="db-generate-changelog" depends="db-prepare">
+        <taskdef resource="liquibasetasks.properties" classpathref="path" />
+        <mkdir dir="${reports}" />
+        <generateChangeLog
+            outputFile="${reports}/output.xml"
+            driver="${database.driver}"
+            url="${database.url}"
+            username="${database.username}"
+            password="${database.password}"
+            defaultSchemaName="${database.schema}"
+            classpathref="path"
+        />
+    </target>
+
+    <!--  ===== DB Generate Changelog Target ===== -->
+    <target name="db-test-data" depends="db-prepare">
+        <taskdef resource="liquibasetasks.properties" classpathref="path" />
+        <updateDatabase
+            changeLogFile="${database.changelog.data}"
+            driver="${database.driver}"
+            url="${database.url}"
+            username="${database.username}"
+            password="${database.password}"
+            defaultSchemaName="${database.schema}"
+            promptOnNonLocalDatabase="${prompt.user.if.not.local.database}" 
+            dropFirst="false"
+            classpathref="path"
+        />
+    </target>
+
+</project>

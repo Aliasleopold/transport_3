@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <preConditions>
+        <dbms type="postgresql"/>
+    </preConditions>
+
+    <!-- ============== create table Bus ============== -->
+        <changeSet id="1" author="Ihar">
+        <createTable tableName="buses">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column> 
+            <column name="name" type="BIGINT"/>
+            <column name="direction" type="VARCHAR(128)"/>
+        </createTable>
+    </changeSet>
+    <!-- ============== create table BusTrip ============== -->
+    <changeSet id="2" author="Ihar">
+        <createTable tableName="bustrips">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column> 
+            <column name="day_type" type="VARCHAR(128)"/>
+ 			<column name="time" type="TIME"/>
+            <column name="bus_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_busid" references="buses(id)" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- ============== create table Stop ============== -->
+    <changeSet id="3" author="Ihar">
+        <createTable tableName="stops">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column> 
+            <column name="name" type="VARCHAR(128)"/>
+            <column name="is_finish" type="boolean" defaultValueBoolean="false"/>
+   
+        </createTable>
+    </changeSet>
+
+    <!-- ============== create table Checkpoint ============== -->
+    <changeSet id="4" author="Ihar">
+        <createTable tableName="checkpoints">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column> 
+            
+            <column name="bustrip_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bustrip" references="bustrips(id)"/>
+            </column>
+            <column name="num" type="BIGINT"/>
+            
+            <column name="stop_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_stop" references="stops(id)"/>
+            </column> 
+            <column name= "deltaTime" type="BIGINT">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
