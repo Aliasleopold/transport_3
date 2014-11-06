@@ -1,12 +1,15 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="rdlab"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="transport"%>
 <fmt:message key="href.home" var="vtitle"/>
-<rdlab:html name_page="${vtitle}">
+<transport:html name_page="${vtitle}">
 
-<h1>Businfo</h1>
-
+<h1>Transport_3</h1>
+<h4 class="alert_info">
+      <fmt:message key="welcom" /> 
+</h4>
+<%-- 
 <h4 class="alert_info">
       <fmt:message key="welcom" /> 
 </h4>
@@ -15,8 +18,8 @@
 <ul>
     <li>
         <c:url value="edit.html" var="url" />
-        <a href="${url}"><fmt:message key="href.busTrips"/></a>
+        <a href="${url}"><fmt:message key="href.transport"/></a>
     </li>
     <li>
-
-</rdlab:html>
+--%>
+</transport:html>

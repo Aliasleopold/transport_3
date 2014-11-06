@@ -7,11 +7,10 @@
     <preConditions>
         <dbms type="postgresql"/>
     </preConditions>
-  <property name="schema.name" value="test"/>
 
     <!-- ============== create table Bus ============== -->
         <changeSet id="1" author="Ihar">
-        <createTable schemaName="${schema.name]" tableName="buses">
+        <createTable  tableName="buses">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column> 
@@ -21,7 +20,7 @@
     </changeSet>
     <!-- ============== create table BusTrip ============== -->
     <changeSet id="2" author="Ihar">
-        <createTable schemaName="${schema.name]" tableName="bustrips">
+        <createTable  tableName="bustrips">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column> 
@@ -35,7 +34,7 @@
 
     <!-- ============== create table Stop ============== -->
     <changeSet id="3" author="Ihar">
-        <createTable  schemaName="${schema.name]" tableName="stops">
+        <createTable tableName="stops">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column> 
@@ -47,7 +46,7 @@
 
     <!-- ============== create table Checkpoint ============== -->
     <changeSet id="4" author="Ihar">
-        <createTable schemaName="${schema.name]" tableName="checkpoints">
+        <createTable tableName="checkpoints">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column> 

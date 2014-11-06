@@ -21,7 +21,7 @@ public class BenchMarkAspect {
     /**
      * Definition of pointcut.
      */
-    @Pointcut("execution(* com.epam.rdlab.service.*ServiceImpl.*(..))")
+    @Pointcut("execution(* com.transport.service.*ServiceImpl.*(..))")
     public void bench() {
     }
 

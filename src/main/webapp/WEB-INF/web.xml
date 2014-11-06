@@ -10,7 +10,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/context.xml</param-value>
+        <param-value>/WEB-INF/classes/context.xml</param-value>
     </context-param>
 
     <!-- Config log4j -->
@@ -23,16 +23,6 @@
         <param-name>log4jRefreshInterval</param-name>
         <param-value>1000</param-value>
     </context-param>
-
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/jsp/errors/404.jsp</location>
-    </error-page>
-
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/jsp/errors/500.jsp</location>
-    </error-page>
 
     <filter>
         <filter-name>charset</filter-name>

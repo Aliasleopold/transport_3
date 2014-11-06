@@ -12,15 +12,15 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="1" author="Ihar" runOnChange="true" failOnError="false">
         <insert tableName="buses">
-            <column name="name" value="Number2" />
+            <column name="name" value="22" />
             <column name="direction" value="test2" />
         </insert>
-        <insert tableName="roles">
-            <column name="name" value="Number14" />
+        <insert tableName="buses">
+            <column name="name" value="11" />
             <column name="direction" value="test14" />
         </insert>
-        <insert tableName="roles">
-            <column name="name" value="Number1" />
+        <insert tableName="buses">
+            <column name="name" value="32" />
             <column name="direction" value="test1" />
         </insert>
     </changeSet>

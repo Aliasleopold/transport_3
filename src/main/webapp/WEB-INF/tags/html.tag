@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="rdlab"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="transport"%>
 <%@ attribute name="name_page" required="false" rtexprvalue="true" type="java.lang.String"%>
 <%@ attribute name="hasRoles" required="false" rtexprvalue="true" type="java.lang.String"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -34,7 +34,7 @@
         <div class="footer">
         <hr />
             <p>
-                <strong>Copyright &copy; Businfo 2013</strong>
+                <strong>Copyright &copy; transport a3.0</strong>
             </p>
         </div>
     </div>

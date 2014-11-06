@@ -1,7 +1,5 @@
 package com.transport.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,18 +37,18 @@ public class BusTripController {
         return busTrip;
     }
 
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public String getBusInfo(@ModelAttribute("busTrip") BusTrip busTrip, ModelMap map) {
+    @RequestMapping(value = "/cFind", method = RequestMethod.POST)
+    public String getBusInfo(@ModelAttribute("busTrips") BusTrip busTrip, ModelMap map) {
         if (busTrip.getId() != null) {
-           // List<BusTrip> busTrips = btservice.filterBusTrip(idStopTo, idStopTo, t, day_type);
+            // List<BusTrip> busTrips = btservice.filterBusTrip(busTrip., idStopTo, t, day_type);
             // map.addAttribute("busTrip", busTrips);
         }
         return "busTrips/list";
     }
-   /* @RequestMapping(value = "/edit.html")
-    public String editTeacher(@ModelAttribute("busTrip") BusTrip busTrip) {
-        return "busTrips/edit";
+    
+    @RequestMapping(value = "/cFind", method = RequestMethod.GET)
+    public String getBusInfo1(ModelMap map) {
+        return "/index";
     }
-   */
 }
 

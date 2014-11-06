@@ -1,117 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:task="http://www.springframework.org/schema/task"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
-    ">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <aop:aspectj-autoproxy />
+	<aop:aspectj-autoproxy />
+	<context:component-scan base-package="com.transport.controller" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:jdbc.properties" />
+	</bean>
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="classpath:jdbc.properties" />
-    </bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${db.jdbc.class}" />
-        <property name="url" value="${db.jdbc.url}" />
-        <property name="username" value="${db.jdbc.login}" />
-        <property name="password" value="${db.jdbc.passwd}" />
-    </bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.jdbc.class}" />
+		<property name="url" value="${db.jdbc.url}" />
+		<property name="username" value="${db.jdbc.login}" />
+		<property name="password" value="${db.jdbc.passwd}" />
+	</bean>
 
-    <!-- Configuration -->
-    <bean id="config" class="org.apache.commons.configuration.DatabaseConfiguration">
-        <constructor-arg index="0" ref="dataSource" />
-        <constructor-arg index="1" type="java.lang.String" value="${db.jdbc.schema}.config" />
-        <constructor-arg index="2" type="java.lang.String" value="key" />
-        <constructor-arg index="3" type="java.lang.String" value="value" />
-        <property name="delimiterParsingDisabled" value="true" />
-    </bean>
+	<!-- Configuration -->
+	<bean id="config" class="org.apache.commons.configuration.DatabaseConfiguration">
+		<constructor-arg index="0" ref="dataSource" />
+		<constructor-arg index="1" type="java.lang.String"
+			value="${db.jdbc.schema}.config" />
+		<constructor-arg index="2" type="java.lang.String"
+			value="key" />
+		<constructor-arg index="3" type="java.lang.String"
+			value="value" />
+		<property name="delimiterParsingDisabled" value="true" />
+	</bean>
 
-    <bean id="dao" class="com.transport.dao.jdbc.BaseJdbcDaoSupport" abstract="true"
-        init-method="init">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
+	<bean id="dao" class="com.transport.dao.jdbc.BaseJdbcDaoSupport"
+		abstract="true" init-method="init">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
-    <bean id="busDao" class="com.transport.dao.jdbc.BusJdbcDao" parent="dao">
-        <property name="properties" value="/com/transport/dao/jdbc/sql/bus.properties"/>
-    </bean>
+	<bean id="busDao" class="com.transport.dao.jdbc.BusJdbcDao"
+		parent="dao">
+		<property name="properties" value="/com/transport/dao/jdbc/sql/bus.properties" />
+	</bean>
 
-    <bean id="busTripDao" class="com.transport.dao.jdbc.BusTripJdbcDao" parent="dao">
-        <property name="properties" value="/com/transport/dao/jdbc/sql/bustrip.properties"/>
-    </bean>
-    
-    <bean id="checkpointDao" class="com.transport.dao.jdbc.CheckpointJdbcDao" parent="dao">
-        <property name="properties" value="/com/transport/dao/jdbc/sql/checkpoint.properties"/>
-    </bean>
+	<bean id="busTripDao" class="com.transport.dao.jdbc.BusTripJdbcDao"
+		parent="dao">
+		<property name="properties"
+			value="/com/transport/dao/jdbc/sql/bustrip.properties" />
+	</bean>
 
-    <bean id="stopDao" class="com.transport.dao.jdbc.StopJdbcDao" parent="dao">
-        <property name="properties" value="/com/transport/dao/jdbc/sql/stop.properties"/>
-    </bean>
+	<bean id="checkpointDao" class="com.transport.dao.jdbc.CheckpointJdbcDao"
+		parent="dao">
+		<property name="properties"
+			value="/com/transport/dao/jdbc/sql/checkpoint.properties" />
+	</bean>
 
-    <bean id="busService" class="com.transport.service.BusServiceImpl">
-        <property name="dao" ref="busDao" />
-    </bean>
+	<bean id="stopDao" class="com.transport.dao.jdbc.StopJdbcDao"
+		parent="dao">
+		<property name="properties" value="/com/transport/dao/jdbc/sql/stop.properties" />
+	</bean>
 
-    <bean id="BusTripService" class="com.transport.service.BusTripServiceImpl">
-        <property name="dao" ref="busTripDao" />
-        <property name="cDao" ref="checkpointDao" />
-    </bean>
-    
-    <bean id="StopService" class="com.transport.service.StopServiceImpl">
-        <property name="dao" ref="stopDao" />
-    </bean>
-  
+	<bean id="busService" class="com.transport.service.BusServiceImpl">
+		<property name="dao" ref="busDao" />
+	</bean>
 
-    <bean id="benchMarkAspect" class="com.transport.aspect.BenchMarkAspect" />
+	<bean id="BusTripService" class="com.transport.service.BusTripServiceImpl">
+		<property name="dao" ref="busTripDao" />
+		<property name="cDao" ref="checkpointDao" />
+	</bean>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
+	<bean id="StopService" class="com.transport.service.StopServiceImpl">
+		<property name="dao" ref="stopDao" />
+	</bean>
+
+	<bean id="CheckpointService" class="com.transport.service.CheckpointServiceImpl">
+		<property name="dao" ref="checkpointDao" />
+	</bean>
 
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>messages</value>
-            </list>
-         </property>
-    </bean>
+	<bean id="benchMarkAspect" class="com.transport.aspect.BenchMarkAspect" />
 
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED"
-                rollback-for="java.lang.Throwable" />
-        </tx:attributes>
-    </tx:advice>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
-    <aop:config proxy-target-class="true">
-        <aop:pointcut id="transactionOperation" expression="execution(* com.transport.service..*ServiceImpl.*(..))" />
-        <aop:advisor pointcut-ref="transactionOperation" advice-ref="txAdvice" />
-    </aop:config>
 
-    <task:scheduler id="scheduler" pool-size="1"/>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+	</bean>
 
-    <bean id="notificationJob" class="com.vsu.businfo.scheduling.NotificationJob" init-method="init">
-        <property name="scheduler" ref="scheduler"/>
-        <property name="mailSender" ref="mailSender"/>
-        <property name="simpleMailMessage" ref="simpleMailMessage"/>
-    </bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED"
+				rollback-for="java.lang.Throwable" />
+		</tx:attributes>
+	</tx:advice>
 
-    <bean id="notificationJobReport" class="com.transport.scheduling.NotificationJobReport" init-method="init">
-        <property name="scheduler" ref="scheduler"/>
-        <property name="busSrv" ref="busService"/>
-        <property name="checkpointSrv" ref="checkpointService"/>
-        <property name="stopSrv" ref="stopService"/>
-        <property name="bustripSrv" ref="busTripService"/>
-        <property name="tmpDir" value="${tmp.dir}"/>
-        <property name="templateDir" value="/WEB-INF/templates"/>
-        <property name="conf" ref="config"/>
-    </bean>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="transactionOperation"
+			expression="execution(* com.transport.service..*ServiceImpl.*(..))" />
+		<aop:advisor pointcut-ref="transactionOperation"
+			advice-ref="txAdvice" />
+	</aop:config>
 
-    <bean id="charset" class="com.transport.servlet.CharSetFilter"/>
+	<bean id="charset" class="com.transport.servlet.CharSetFilter" />
 
 </beans>
