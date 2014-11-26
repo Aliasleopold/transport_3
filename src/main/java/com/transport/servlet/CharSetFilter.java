@@ -1,9 +1,9 @@
 package com.transport.servlet;
 
 import java.io.IOException;
-import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;

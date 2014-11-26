@@ -1,8 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" pre-fix="form"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="transport"%>
 <fmt:message key="title.transport" var="title_topic" />
